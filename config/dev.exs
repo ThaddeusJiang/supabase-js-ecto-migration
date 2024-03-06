@@ -4,8 +4,9 @@ import Config
 config :board, Board.Repo,
   username: "postgres",
   password: "postgres",
-  hostname: "localhost",
-  database: "board_dev",
+  hostname: "127.0.0.1",
+  database: "postgres",
+  port: 54322,
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
