@@ -2,16 +2,8 @@ defmodule Board.Repo.Migrations.CreateRoleBaseAccessControl do
   use Ecto.Migration
 
   def change do
-    create table(:member) do
-      add :name, :string
-
-      timestamps(type: :utc_datetime)
-    end
-
     create table(:role) do
       add :name, :string
-
-      timestamps(type: :utc_datetime)
     end
 
     create table(:permission) do
@@ -19,24 +11,13 @@ defmodule Board.Repo.Migrations.CreateRoleBaseAccessControl do
       add :entity, :string
       add :action, :string
       add :access, :string
-
-      timestamps(type: :utc_datetime)
     end
 
     create unique_index(:permission, [:entity, :action, :access])
 
-    create table(:role_member) do
-      add :role_id, references(:role, on_delete: :delete_all)
-      add :member_id, references(:member, on_delete: :delete_all)
+    create table(:role_permission, primary_key: false) do
+      add :role_id, references(:role), primary_key: true
+      add :permission_id, references(:permission), primary_key: true
     end
-
-    create unique_index(:role_member, [:role_id, :member_id])
-
-    create table(:role_permission) do
-      add :role_id, references(:role, on_delete: :delete_all)
-      add :permission_id, references(:permission, on_delete: :delete_all)
-    end
-
-    create unique_index(:role_permission, [:role_id, :permission_id])
   end
 end
